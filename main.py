@@ -53,17 +53,74 @@ from machine import ADC
 
 #     time.sleep(hold_time_sec)
 
-# Button
+# # Button
 
-p_in = Pin('P10', mode = Pin.IN)  # SENSOR BUTTON FORM ELEKTROKIT
-# p_in = Pin('P10', mode=Pin.IN, pull=Pin.PULL_UP)  # A REGULAR BUTTON PULLED UP  
+# p_in = Pin('P10', mode = Pin.IN)  # SENSOR BUTTON FORM ELEKTROKIT
+# # p_in = Pin('P10', mode=Pin.IN, pull=Pin.PULL_UP)  # A REGULAR BUTTON PULLED UP
+
+# while(1):
+#     val = p_in() # get value, 0 or 1
+#     if val == 1:
+#         print("NOT PRESSED !")
+#     else:
+#         print("PRESSED !")
+
+#     time.sleep(1)
+powerOn = False
+
+p_in = Pin('P10', mode=Pin.IN)  # SENSOR BUTTON FORM ELEKTROKIT
+# p_in = Pin('P10', mode=Pin.IN, pull=Pin.PULL_UP)  # A REGULAR BUTTON PULLED UP
 
 while(1):
-    val = p_in() # get value, 0 or 1
-    if val == 1:
-        print("NOT PRESSED !")
-    else:
-        print("PRESSED !")
-    
+    val = p_in()  # get value, 0 or 1
+    if val == 0:
+        if (powerOn):
+            powerOn = False
+            print(powerOn)
+        else:
+            powerOn = True
+            print(powerOn)
+
+            motionDetected = 1
+            noMotionDetected = 0
+            hold_time_sec = 0.1
+            pir = Pin('P4', mode=Pin.IN)
+
+            chrono = Timer.Chrono()
+            chrono.start()
+
+            print("Starting Detection")
+            while True:
+                if pir() == motionDetected:
+                    print(chrono.read(), "Motion Detected!")
+                # print(pir())
+
+                if pir() == noMotionDetected:
+                    pass
+                time.sleep(1)
+                val = p_in()
+                if val == 0:
+                    powerOn = False
+                    print("Stop detection")
+                    break
+
     time.sleep(1)
 
+    # motionDetected = 1
+    # noMotionDetected = 0
+    # hold_time_sec = 0.1
+    # pir = Pin('P4', mode=Pin.IN)
+
+    # chrono = Timer.Chrono()
+    # chrono.start()
+
+    # print("Starting Detection")
+    # while True:
+    #     if pir() == motionDetected:
+    #         print(chrono.read(), "Motion Detected!")
+    #     # print(pir())
+
+    #     if pir() == noMotionDetected:
+    #         pass
+
+    #     time.sleep(hold_time_sec)
