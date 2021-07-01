@@ -1,5 +1,6 @@
 import machine
 import time
+import pycom
 from machine import Pin
 from machine import Timer
 from machine import ADC
@@ -67,9 +68,11 @@ from machine import ADC
 
 #     time.sleep(1)
 powerOn = False
+pycom.heartbeat(False)
 
 p_in = Pin('P10', mode=Pin.IN)  # SENSOR BUTTON FORM ELEKTROKIT
-# p_in = Pin('P10', mode=Pin.IN, pull=Pin.PULL_UP)  # A REGULAR BUTTON PULLED UP
+pycom.rgbled(0x0000FF) 
+
 
 while(1):
     val = p_in()  # get value, 0 or 1
@@ -90,12 +93,16 @@ while(1):
             chrono.start()
 
             print("Starting Detection")
+            pycom.rgbled(0x00FF00)  # Green
             while True:
                 if pir() == motionDetected:
                     print(chrono.read(), "Motion Detected!")
+                    pycom.rgbled(0xFF0000)  # Red
+
                 # print(pir())
 
                 if pir() == noMotionDetected:
+                    pycom.rgbled(0x00FF00)  # Green
                     pass
                 time.sleep(1)
                 val = p_in()
