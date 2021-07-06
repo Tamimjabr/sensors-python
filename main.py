@@ -67,11 +67,12 @@ from machine import ADC
 #         print("PRESSED !")
 
 #     time.sleep(1)
+
+
 powerOn = False
 pycom.heartbeat(False)
 
 p_in = Pin('P10', mode=Pin.IN)  # SENSOR BUTTON FORM ELEKTROKIT
-pycom.rgbled(0x0000FF) 
 
 
 while(1):
@@ -94,23 +95,30 @@ while(1):
 
             print("Starting Detection")
             pycom.rgbled(0x00FF00)  # Green
+            time.sleep(1)
+            pycom.rgbled(0x000000)
             while True:
                 if pir() == motionDetected:
                     print(chrono.read(), "Motion Detected!")
+                    pybytes.send_signal(1, "Motion Detected!")
+                    print("sending: Motion Detected!")
                     pycom.rgbled(0xFF0000)  # Red
+                    time.sleep(10)
 
                 # print(pir())
 
                 if pir() == noMotionDetected:
-                    pycom.rgbled(0x00FF00)  # Green
+                    pycom.rgbled(0x000000)
                     pass
                 time.sleep(1)
-                val = p_in()
-                if val == 0:
+                val2 = p_in()
+                if val2 == 0:
                     powerOn = False
                     print("Stop detection")
+                    pycom.rgbled(0x0000FF)  # blue
+                    time.sleep(1)
+                    pycom.rgbled(0x000000)
                     break
-
     time.sleep(1)
 
     # motionDetected = 1
@@ -131,3 +139,15 @@ while(1):
     #         pass
 
     #     time.sleep(hold_time_sec)
+
+
+# while True:
+#     #The value can be a sensor reading being done here
+#     value = 5
+
+#     #Sending to pybytes in channel 1
+#     pybytes.send_signal(1, value)
+#     print("sending: {}".format(value))
+
+#     #Send every 5 seconds
+#     time.sleep(5)
