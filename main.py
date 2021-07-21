@@ -41,7 +41,6 @@ while(1):
                     pycom.rgbled(0xFF0000)  # Red
                     time.sleep(10)
 
-                # print(pir())
 
                 if pir() == noMotionDetected:
                     pycom.rgbled(0x000000)
