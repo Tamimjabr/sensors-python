@@ -28,6 +28,7 @@ while(1):
             chrono = Timer.Chrono()
             chrono.start()
 
+            # notify when start detecting by logging and green light
             print("Starting Detection")
             pycom.rgbled(0x00FF00)  # Green
             time.sleep(1)
@@ -35,11 +36,11 @@ while(1):
             while True:
                 if pir() == motionDetected:
                     print(chrono.read(), "Motion Detected!")
+                    # notify when detecting motion by sending data, logging and red light for 10sec
                     pybytes.send_signal(1, "Motion Detected!")
                     print("sending: Motion Detected!")
                     pycom.rgbled(0xFF0000)  # Red
                     time.sleep(10)
-
 
                 if pir() == noMotionDetected:
                     pycom.rgbled(0x000000)
@@ -49,7 +50,7 @@ while(1):
                 if val2 == 0:
                     powerOn = False
                     print("Stop detection")
-                    pycom.rgbled(0x0000FF)  # blue
+                    pycom.rgbled(0x0000FF)  # Blue
                     time.sleep(1)
                     pycom.rgbled(0x000000)
                     break
