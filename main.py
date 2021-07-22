@@ -1,6 +1,5 @@
-import machine
-import time
 import pycom
+import time
 from machine import Pin
 from machine import Timer
 
