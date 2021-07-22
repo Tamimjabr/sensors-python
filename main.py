@@ -12,7 +12,7 @@ p_in = Pin('P10', mode=Pin.IN)  # SENSOR BUTTON FORM ELEKTROKIT
 
 
 while(1):
-    val = p_in()  # get value, 0 or 1
+    val = p_in()  # get value, 0 or 1 from the button
     if val == 0:
         if (powerOn):
             powerOn = False
@@ -23,7 +23,6 @@ while(1):
 
             motionDetected = 1
             noMotionDetected = 0
-            hold_time_sec = 0.1
             pir = Pin('P4', mode=Pin.IN)
 
             chrono = Timer.Chrono()
