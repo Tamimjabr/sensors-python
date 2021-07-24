@@ -15,10 +15,8 @@ while(1):
     if val == 0:
         if (powerOn):
             powerOn = False
-            print(powerOn)
         else:
             powerOn = True
-            print(powerOn)
 
             motionDetected = 1
             noMotionDetected = 0
